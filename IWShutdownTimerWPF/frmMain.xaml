@@ -1,0 +1,654 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    x:Name="windowMain" mc:Ignorable="d" x:Class="MainWindow"
+    Title="IW Shutdown Timer" Height="450" Width="600" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderThickness="0" ResizeMode="NoResize" AllowsTransparency="True" OpacityMask="Black" Background="{x:Null}" Icon="ST_Icon_02_01 (16+32+48).ico">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#FFC4C4C6" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="{x:Type Hyperlink}" TargetType="{x:Type Hyperlink}">
+            <Setter Property="Foreground" Value="#FF0066CC" />
+            <!--<Setter Property="TextDecorations" Value="Underline"/>-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Blue"  />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <ControlTemplate x:Key="ButtonBaseControlTemplate1" TargetType="{x:Type ButtonBase}">
+            <Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome"
+			                                       Background="{TemplateBinding Background}"
+			                                       BorderBrush="{TemplateBinding BorderBrush}"
+			                                       SnapsToDevicePixels="True">
+                <ContentPresenter Margin="{TemplateBinding Padding}"
+				                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+				                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+				                  Content="{TemplateBinding Content}"
+				                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+				                  ContentTemplate="{TemplateBinding ContentTemplate}"
+				                  RecognizesAccessKey="True"
+				                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Microsoft_Windows_Themes:ButtonChrome>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter TargetName="Chrome" Property="RenderDefaulted" Value="False" />
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter TargetName="Chrome" Property="RenderPressed" Value="False" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </Window.Resources>
+    
+    <Window.Effect>
+        <DropShadowEffect BlurRadius="10" Direction="0" Opacity="0.75" ShadowDepth="0"/>
+    </Window.Effect>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="windowMain" 
+                    Storyboard.TargetProperty="Opacity" From="0" To="1" 
+                    Duration="0:0:.5" BeginTime="0:0:0" AutoReverse="False"/>
+                </Storyboard>
+            </BeginStoryboard> 
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid x:Name="GridMain" HorizontalAlignment="Center"  Width="600" Height="450" VerticalAlignment="Center" >
+        <Grid.Background>
+            <ImageBrush/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="GridMainWindow" Margin="25" Width="Auto" Height="Auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Image HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="550" Source="ST_BG_01.01.04i.png" Stretch="Fill"/>
+            <MediaElement x:Name="mElement" Volume="1" LoadedBehavior="Manual" Margin="0,465,464,-157"/>
+            <Grid x:Name="GridDownBar" Height="60" VerticalAlignment="Bottom">
+                <Button x:Name="btnExit" 
+                        Style="{StaticResource ButtonStyle}"
+			            Template="{DynamicResource ButtonBaseControlTemplate1}"
+                        Content="Exit" 
+                        Height="30" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Right" 
+                        Width="70" 
+                        BorderThickness="0" 
+                        Background="White" 
+                        Margin="0,0,15,16">
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                    </Button.Effect>
+                </Button>
+                <Button x:Name="btnShowHide" 
+            		Content="Set Timer" 
+            		Margin="0,0,90,16"
+            		HorizontalAlignment="Right" 
+            		Width="70" 
+            		BorderThickness="0"
+            		Background="White" 
+            		Padding="1" Height="30" VerticalAlignment="Bottom"
+                    Style="{StaticResource ButtonStyle}"
+			        Template="{DynamicResource ButtonBaseControlTemplate1}"
+                    >
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                    </Button.Effect>
+                </Button>
+                <Button x:Name="btnAbout" 
+                        Style="{StaticResource ButtonStyle}"
+			            Template="{DynamicResource ButtonBaseControlTemplate1}"
+                        Content="About" Margin="15,0,0,16" Height="30" VerticalAlignment="Bottom" BorderThickness="0" Background="White" Padding="1" HorizontalAlignment="Left" Width="75">
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                    </Button.Effect>
+                </Button>
+                <Rectangle HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="160" Margin="123,14,0,16" RadiusX="5" RadiusY="5">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="15" Color="White"/>
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="Black" Opacity="0.1"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Label x:Name="lblGStatus" Content="OFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="243,14,0,18" FontSize="14" Foreground="Red" FontWeight="Bold" Cursor="Hand" ToolTip="ON/OFF Desktop Gadget">
+                    <Label.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="10" Opacity="0.25"/>
+                    </Label.Effect>
+                </Label>
+                <Label x:Name="lblGStatusTxt" Content="Desktop Gadget :" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="128,14,0,18" FontSize="14" Foreground="White">
+                    <Label.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="10"/>
+                    </Label.Effect>
+                </Label>
+                <Button x:Name="btnStopWatch" 
+                	Content="Stopwatch" 
+                	Margin="0,0,165,16"
+                	HorizontalAlignment="Right" 
+                	Width="70" 
+                	BorderThickness="0"
+                	Background="White" 
+                	Padding="1" Height="30" VerticalAlignment="Bottom"
+                	Style="{StaticResource ButtonStyle}"
+                	Template="{DynamicResource ButtonBaseControlTemplate1}"
+                    >
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                    </Button.Effect>
+                </Button>
+            </Grid>
+            <Grid x:Name="GridMsg" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center" Width="550">
+                <Rectangle RadiusY="10" RadiusX="10" Margin="49,145,49,155">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="0" Opacity="0.5" ShadowDepth="0" BlurRadius="10"/>
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="White" Opacity="0.15"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <Label x:Name="txtTimerInfo" Content="Timer is not Activated" Margin="49,146,49,0" FontSize="36" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <Label.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="25" Color="White" Opacity="0.5"/>
+                    </Label.Effect>
+                </Label>
+                <Label x:Name="lblTimerDes" Content="To setup Timer click 'Set Timer' button" VerticalAlignment="Top" Margin="49,206,49,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14">
+                    <Label.Effect>
+                        <DropShadowEffect ShadowDepth="0" Direction="0" BlurRadius="25" Color="White"/>
+                    </Label.Effect>
+                </Label>
+                <TextBox x:Name="txtTimerMag" HorizontalAlignment="Center" Height="50" TextWrapping="Wrap" Text="No Massage!" VerticalAlignment="Top" Margin="0,266,0,0" Width="400" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Arial" FontSize="14" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionBrush="{x:Null}" UndoLimit="0" IsReadOnly="True" IsUndoEnabled="False" IsTabStop="False" Focusable="False" Cursor="Arrow">
+                    <TextBox.Effect>
+                        <DropShadowEffect BlurRadius="10" Opacity="0.25" ShadowDepth="0" Direction="0"/>
+                    </TextBox.Effect>
+                </TextBox>
+
+            </Grid>
+            <Grid x:Name="GridAboutBox" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="250" Width="508" d:IsHidden="True">
+                <Grid.Effect>
+                    <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="10" Opacity="0.25"/>
+                </Grid.Effect>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="85*"/>
+                    <ColumnDefinition Width="169*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Fill="#FFF4F4F5" RadiusX="10" RadiusY="10" Opacity="0.15" Grid.ColumnSpan="2">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="10"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Image VerticalAlignment="Top" Margin="22,22,0,0" Source="ST_Icon_02_128.png" HorizontalAlignment="Left" Width="128">
+                    <Image.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="10" Color="White" Opacity="0.25"/>
+                    </Image.Effect>
+                </Image>
+                <Label x:Name="txtVersion" Content="Version 0.0.0.0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,55,0,0" Grid.Column="1">
+                    <Label.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.25" BlurRadius="10"/>
+                    </Label.Effect>
+                </Label>
+                <Label Content="IW Shutdown Timer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,20,0,0" Grid.Column="1" FontSize="20" FontWeight="Bold">
+                    <Label.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.25" BlurRadius="10"/>
+                    </Label.Effect>
+                </Label>
+                <TextBlock x:Name="txtDevInfo" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Margin="20,98,0,0" Text="An imagination of Imaginative World.">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.25" BlurRadius="10"/>
+                    </TextBlock.Effect></TextBlock>
+                <Rectangle Grid.Column="1" Height="3" Margin="19,90,19,0" VerticalAlignment="Top" RadiusX="1" RadiusY="1">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="Black" Opacity="0.25"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <TextBlock x:Name="txtWebSite" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Margin="20,147,0,0" Foreground="Black">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.25" BlurRadius="10"/>
+                    </TextBlock.Effect><InlineUIContainer>
+                		<TextBlock><Run Text="Website :"/></TextBlock>
+                	</InlineUIContainer><Run Text=" "/><Hyperlink NavigateUri="http://imaginativeworld.org" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None"><InlineUIContainer>
+                    		<TextBlock><Run Text="imaginativeworld.org"/></TextBlock>
+                    	</InlineUIContainer></Hyperlink></TextBlock>
+                <TextBlock x:Name="txtHostingSup" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Margin="20,167,0,0" Foreground="Black">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.25" BlurRadius="10"/>
+                    </TextBlock.Effect><InlineUIContainer>
+                		<TextBlock><Run Text="Hosting Support :"/></TextBlock>
+                	</InlineUIContainer><Run Text=" "/><Hyperlink NavigateUri="http://service.luckyfm.info" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None"><InlineUIContainer>
+                			<TextBlock><Run Text="Dhrubok All Rounder"/></TextBlock>
+                		</InlineUIContainer></Hyperlink></TextBlock>
+
+                <Rectangle Grid.Column="1" Height="3" Margin="19,190,19,0" VerticalAlignment="Top" RadiusX="1" RadiusY="1">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="Black" Opacity="0.25"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock x:Name="txtFindUsOn" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Margin="20,210,0,0" Text="Find us on :" FontSize="14">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.25" BlurRadius="10"/>
+                    </TextBlock.Effect></TextBlock>
+                <Image x:Name="imgFB" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="32" Grid.Column="1" Margin="110,205,0,0" Source="facebook.png" Cursor="Hand" ToolTip="Like us on Facebook">
+                    <Image.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" Color="White" BlurRadius="10"/>
+                    </Image.Effect>
+                </Image>
+                <Image x:Name="imgGPlus" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="32" Grid.Column="1" Margin="160,205,0,0" Source="gplus2.png" Cursor="Hand" ToolTip="Add us on Google+">
+                    <Image.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" Color="White" BlurRadius="10"/>
+                    </Image.Effect>
+                </Image>
+                <Image x:Name="imgTwitter" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="32" Grid.Column="1" Margin="210,205,0,0" Source="twitter.png" Cursor="Hand" ToolTip="Follow us on Twitter">
+                    <Image.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" Color="White" BlurRadius="10"/>
+                    </Image.Effect>
+                </Image>
+                <Image x:Name="imgWeb" HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="32" Grid.Column="1" Margin="260,205,0,0" Source="website.png" Cursor="Hand" ToolTip="Visit our Website">
+                    <Image.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" Color="White" BlurRadius="10"/>
+                    </Image.Effect>
+                </Image>
+                <Button x:Name="btnChkUpdate" 
+                        Style="{StaticResource ButtonStyle}"
+			            Template="{DynamicResource ButtonBaseControlTemplate1}"
+                        Content="Check Update" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="210,58,0,0" Grid.Column="1" Height="20" Background="White" FontSize="11"/>
+                <TextBlock x:Name="txtDevInfo_Copy" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Margin="20,115,0,0" Text="This is an Open-source project under MPL 2.0.">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.25" BlurRadius="10"/>
+                    </TextBlock.Effect></TextBlock>
+                <!-- #FF0066CC -->
+
+            </Grid>
+            <Grid x:Name="GridTitle" Height="61" VerticalAlignment="Top">
+                <Grid.Background>
+                    <SolidColorBrush Color="White" Opacity="0"/>
+                </Grid.Background>
+                <Button x:Name="btnGotoTray" 
+                        Style="{StaticResource ButtonStyle}"
+			            Template="{DynamicResource ButtonBaseControlTemplate1}"
+                        Content="" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Margin="0,8,8,0" Height="10" Background="White" BorderBrush="{x:Null}" ToolTip="Go to tray" Cursor="Hand">
+                    <Button.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                    </Button.Effect>
+                </Button>
+            </Grid>
+            <Label x:Name="txtTitleVer" Content="0.0.0.0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="445,28,0,0" Foreground="White" FontFamily="Verdana"/>
+            <Grid x:Name="GridSettingBox" Margin="21,75" d:IsHidden="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="107*"/>
+                    <RowDefinition Height="18*"/>
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="Box01" RadiusX="10" RadiusY="10" Margin="0,-1,0,1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="15"/>
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="White" Opacity="0.15"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Grid Height="250" VerticalAlignment="Top" Grid.RowSpan="2" 
+                      Grid.ColumnSpan="2" Margin="0,0,0,0"/>
+                <Grid x:Name="GridDoWhat" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="btnSoundBrowse" 
+                    	Content="..." 
+                    	Margin="0,123,64,46" 
+                    	BorderThickness="0"
+                    	Background="White" 
+                    	Padding="1" Height="25"
+                    	Style="{StaticResource ButtonStyle}"
+                    	Template="{DynamicResource ButtonBaseControlTemplate1}" Grid.Row="0" HorizontalAlignment="Right" Width="25" ToolTip="Browse..." FontSize="14" VerticalAlignment="Center"
+                    >
+                        <Button.Effect>
+                            <DropShadowEffect Opacity="0.25" ShadowDepth="0" Color="White" BlurRadius="15" Direction="0"/>
+                        </Button.Effect>
+                    </Button>
+                    <Button x:Name="btnPlay" 
+                    	Content="▶" 
+                    	Margin="437,123,27,46" 
+                    	BorderThickness="0"
+                    	Background="White" 
+                    	Padding="1" Height="25"
+                    	Style="{StaticResource ButtonStyle}"
+                    	Template="{DynamicResource ButtonBaseControlTemplate1}" Grid.Row="0" HorizontalAlignment="Center" Width="24" FontSize="14" VerticalAlignment="Center"
+                    >
+                        <Button.Effect>
+                            <DropShadowEffect Opacity="0.25" ShadowDepth="0" Color="White" BlurRadius="15" Direction="0"/>
+                        </Button.Effect>
+                    </Button>
+                    <Label Content="Sound file :" HorizontalAlignment="Left" Margin="20,114,0,44" Grid.Row="0" Foreground="White" FontSize="20" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                        <Label.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                        </Label.Effect>
+                    </Label>
+                    <ComboBox x:Name="cmbBoxVolume" HorizontalAlignment="Left" Margin="140,0,0,7" VerticalAlignment="Bottom" SelectedIndex="0" Grid.Row="0" FontSize="18" Width="100">
+                        <ComboBox.Effect>
+                            <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="10" Color="White"/>
+                        </ComboBox.Effect>
+                        <ComboBoxItem Content="Full"/>
+                        <ComboBoxItem Content="Medium"/>
+                        <ComboBoxItem Content="Low"/>
+                    </ComboBox>
+                    <ComboBox x:Name="cmbBoxWhatDo" Margin="140,1,0,0" VerticalAlignment="Top" SelectedIndex="0" FontSize="18" Grid.Row="0" HorizontalAlignment="Left" Width="200">
+                        <ComboBox.Effect>
+                            <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="10" Color="White"/>
+                        </ComboBox.Effect>
+                        <ComboBoxItem Content="Shutdown"/>
+                        <ComboBoxItem Content="Hibernate"/>
+                        <ComboBoxItem Content="Restart"/>
+                        <ComboBoxItem Content="Log Off / Sign Out"/>
+                        <ComboBoxItem Content="Lock"/>
+                        <ComboBoxItem Content="Reminder"/>
+                    </ComboBox>
+                    <TextBox x:Name="txtRemindMsg" TextWrapping="Wrap" Text="Massage Here" Margin="140,42,0,0" VerticalScrollBarVisibility="Visible" Grid.Row="0" ToolTip="Timer Massage: Why you activate the Timer? (Optional)" Padding="3" Foreground="Black" Cursor="Arrow" Height="73" VerticalAlignment="Top" Background="White" HorizontalAlignment="Left" Width="323" FontSize="16">
+                        <TextBox.BorderBrush>
+                            <SolidColorBrush Color="Black" Opacity="0.25"/>
+                        </TextBox.BorderBrush>
+                        <TextBox.Effect>
+                            <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="10" Color="White"/>
+                        </TextBox.Effect>
+                    </TextBox>
+                    <Label Content="Do What :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,-4,0,0" Foreground="White" FontSize="20" VerticalContentAlignment="Center" Grid.Row="0">
+                        <Label.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                        </Label.Effect>
+                    </Label>
+                    <Label Content="Massage :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,29,0,0" Grid.Row="0" Foreground="White" FontSize="20" VerticalContentAlignment="Center">
+                        <Label.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                        </Label.Effect>
+                    </Label>
+                    <Label Content="Volume :" HorizontalAlignment="Left" Margin="20,150,0,7" Grid.Row="0" Foreground="White" FontSize="20" VerticalContentAlignment="Center">
+                        <Label.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                        </Label.Effect>
+                    </Label>
+                    <Label x:Name="lblSound" Content="No sound file selected!" HorizontalAlignment="Left" Margin="140,114,0,44" Grid.Row="0" Foreground="#7FFFFFFF" FontSize="20" VerticalAlignment="Center">
+                        <Label.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                        </Label.Effect>
+                    </Label>
+                    <Rectangle Height="2" VerticalAlignment="Top" Grid.Row="0" Margin="10,197,10,-5" RadiusX="1" RadiusY="1">
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="Black" Opacity="0.15"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+                <Button x:Name="btnNext01" 
+                	Content="Next" 
+                	Margin="0,0,30,10" 
+                	BorderThickness="0"
+                	Background="White" 
+                	Padding="1" Height="25" VerticalAlignment="Bottom"
+                	Style="{StaticResource ButtonStyle}"
+                	Template="{DynamicResource ButtonBaseControlTemplate1}" Grid.Row="1" HorizontalAlignment="Right" Width="108"
+                    >
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.25" ShadowDepth="0" Color="White" BlurRadius="15" Direction="0"/>
+                    </Button.Effect>
+                </Button>
+            </Grid>
+            <Grid x:Name="GridBoxOptions" Margin="21,75" d:IsHidden="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="107*"/>
+                    <RowDefinition Height="18*"/>
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="Box1" RadiusX="10" RadiusY="10" Margin="0,-1,0,1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="15"/>
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="White" Opacity="0.15"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Grid Height="250" VerticalAlignment="Top" Grid.RowSpan="2" 
+            		Grid.ColumnSpan="2" Margin="0,0,0,0"/>
+                <Grid x:Name="GridClockB" Margin="18,32,12,0" Height="85" VerticalAlignment="Top">
+                    <Rectangle x:Name="RecClockB" RadiusY="10" RadiusX="10" Margin="0">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="10" Color="White" Opacity="0.5"/>
+                        </Rectangle.Effect>
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="Black" Opacity="0.1"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Label x:Name="lblH" Content="Hour :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,5,0,0" Foreground="White">
+                        <Label.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10"/>
+                        </Label.Effect>
+                    </Label>
+                    <Label x:Name="lblM" Content="Minutes :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,29,0,0" Foreground="White">
+                        <Label.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10"/>
+                        </Label.Effect>
+                    </Label>
+                    <Label x:Name="lblAP" Content="AM / PM :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="28,53,0,0" Foreground="White">
+                        <Label.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10"/>
+                        </Label.Effect>
+                    </Label>
+                    <TextBox x:Name="txtH" HorizontalAlignment="Left" Text="12" VerticalAlignment="Top" Width="40" Margin="119,8,0,0" Padding="2" Cursor="Arrow" Background="White">
+                        <TextBox.BorderBrush>
+                            <SolidColorBrush Color="Black" Opacity="0.25"/>
+                        </TextBox.BorderBrush>
+                        <TextBox.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10" Color="White"/>
+                        </TextBox.Effect>
+                    </TextBox>
+                    <TextBox x:Name="txtM" HorizontalAlignment="Left" Text="00" VerticalAlignment="Top" Width="40" Margin="119,31,0,0" Padding="2" Cursor="Arrow" Background="White">
+                        <TextBox.BorderBrush>
+                            <SolidColorBrush Color="Black" Opacity="0.25"/>
+                        </TextBox.BorderBrush>
+                        <TextBox.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10" Color="White"/>
+                        </TextBox.Effect>
+                    </TextBox>
+                    <ComboBox x:Name="cmbBoxAP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Margin="119,55,0,0" SelectedIndex="0">
+                        <ComboBox.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10" Color="White"/>
+                        </ComboBox.Effect>
+                        <ComboBoxItem Content="AM"/>
+                        <ComboBoxItem Content="PM"/>
+                    </ComboBox>
+                </Grid>
+                <Grid x:Name="GridTimerB" Margin="18,0,12,14" Height="50" VerticalAlignment="Bottom">
+                    <Rectangle x:Name="RecTimerB" RadiusY="10" RadiusX="10" Margin="0">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.5" Color="White"/>
+                        </Rectangle.Effect>
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="Black" Opacity="0.1"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Label x:Name="lblTimerBtxt2" Content="Minute " Margin="164,12,0,0" RenderTransformOrigin="-1.842,0.615" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White">
+                        <Label.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10"/>
+                        </Label.Effect>
+                    </Label>
+                    <Label x:Name="lblTimerBTxt1" Content="Execute after :" Height="26" RenderTransformOrigin="2.079,3.269" Margin="18,12,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White">
+                        <Label.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10"/>
+                        </Label.Effect>
+                    </Label>
+                    <TextBox x:Name="txtTime" Width="40" Margin="114,15,0,0" RenderTransformOrigin="1.05,-0.565" HorizontalAlignment="Left" VerticalAlignment="Top" Text="5" Padding="2" Cursor="Arrow" Background="White">
+                        <TextBox.BorderBrush>
+                            <SolidColorBrush Color="Black" Opacity="0.25"/>
+                        </TextBox.BorderBrush>
+                        <TextBox.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10" Color="White"/>
+                        </TextBox.Effect>
+                    </TextBox>
+                </Grid>
+                <RadioButton x:Name="rBtnTimerBase" Content="Stop-watch Based" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,127,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" FontSize="14">
+                    <RadioButton.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                    </RadioButton.Effect>
+                </RadioButton>
+                <RadioButton x:Name="rBtnClockBase" Content="Clock Based" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,10,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" FontSize="14">
+                    <RadioButton.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                    </RadioButton.Effect>
+                </RadioButton>
+                <Button x:Name="btnSetTmr" 
+                	Content="Activate Timer" 
+                	Margin="0,1,30,10" 
+                	BorderThickness="0"
+                	Background="White" 
+                	Padding="1"
+                	Style="{StaticResource ButtonStyle}"
+                	Template="{DynamicResource ButtonBaseControlTemplate1}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="108"
+                    >
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.25" ShadowDepth="0" Color="White" BlurRadius="15" Direction="0"/>
+                    </Button.Effect>
+                </Button>
+                <Rectangle Height="2" VerticalAlignment="Top" Margin="10,207,10,0" RadiusX="1" RadiusY="1" Grid.ColumnSpan="2">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="Black" Opacity="0.15"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Button x:Name="btnBack01" 
+                	Content="Back" 
+                	Margin="30,0,0,10" 
+                	BorderThickness="0"
+                	Background="White" 
+                	Padding="1" Height="25" VerticalAlignment="Bottom"
+                	Style="{StaticResource ButtonStyle}"
+                	Template="{DynamicResource ButtonBaseControlTemplate1}" Grid.Row="1" HorizontalAlignment="Left" Width="108"
+                    >
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.25" ShadowDepth="0" Color="White" BlurRadius="15" Direction="0"/>
+                    </Button.Effect>
+                </Button>
+                <RadioButton x:Name="rBtnOptNetOff" Content="When internet disconnected" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,10,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" FontSize="14" Grid.Column="1">
+                    <RadioButton.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                    </RadioButton.Effect>
+                </RadioButton>
+                <Grid x:Name="GridTimerB_Copy" Margin="15,0,15,60" Height="80" VerticalAlignment="Bottom" Grid.Column="1">
+                    <Rectangle x:Name="RecTimerB1" RadiusY="10" RadiusX="10" Margin="0">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.5" Color="White"/>
+                        </Rectangle.Effect>
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="Black" Opacity="0.1"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Label x:Name="lblfeedbacktxt01" Content="Need any other option?" RenderTransformOrigin="2.079,3.269" Margin="11,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="18">
+                        <Label.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10"/>
+                        </Label.Effect>
+                    </Label>
+                    <Label x:Name="lblfeedbacktxt02" Content="Feedback us" Margin="11,35,0,0" RenderTransformOrigin="-1.842,0.615" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="18">
+                        <Label.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.25" Direction="0" BlurRadius="10"/>
+                        </Label.Effect>
+                        
+                    </Label>
+                    <TextBlock Margin="121,40,0,0" FontSize="18" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Hyperlink NavigateUri="http://blog.imaginativeworld.org/feedback" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                        <InlineUIContainer>
+                            <TextBlock><Run Text="here"/></TextBlock>
+                        </InlineUIContainer>
+                    </Hyperlink>
+                        </TextBlock>
+                </Grid>
+            </Grid>
+            <Grid x:Name="GStopWatch" Margin="21,75" d:IsHidden="True">
+                <Rectangle Fill="#FF404040" RadiusX="10" RadiusY="10" HorizontalAlignment="Center" Width="508" VerticalAlignment="Center" Height="250">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="10"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle HorizontalAlignment="Center" Height="120" RadiusY="10" RadiusX="10" VerticalAlignment="Top" Width="440" Margin="0,35,0,0">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="Black" Opacity="0.2"/>
+                    </Rectangle.Fill>
+                    <Rectangle.Effect>
+                        <DropShadowEffect ShadowDepth="0" Direction="0" BlurRadius="10" Opacity="0.25" Color="White"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Label x:Name="lblFullTime" Content="00:00:00" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="43,24,0,0" FontSize="90" Background="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <Label.Foreground>
+                        <SolidColorBrush Color="#FF6D6D6D"/>
+                    </Label.Foreground>
+                </Label>
+                <Button x:Name="btnSWStart" 
+                	Content="Start" 
+                	Margin="0,0,140,29"
+                	HorizontalAlignment="Right" 
+                	Width="100" 
+                	BorderThickness="0"
+                	Background="White" 
+                	Padding="1" Height="35" VerticalAlignment="Bottom"
+                	Style="{StaticResource ButtonStyle}"
+                	Template="{DynamicResource ButtonBaseControlTemplate1}" FontSize="18"
+                    >
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                    </Button.Effect>
+                </Button>
+                <Label x:Name="lblnanoSec" Content="00" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,55,42,0" FontSize="60" Background="{x:Null}" Width="75" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <Label.Foreground>
+                        <SolidColorBrush Color="#FF6D6D6D"/>
+                    </Label.Foreground>
+                </Label>
+                <Button x:Name="btnSWReset" 
+                	Content="Reset" 
+                	Margin="140,0,0,29"
+                	HorizontalAlignment="Left" 
+                	Width="100" 
+                	BorderThickness="0"
+                	Background="White" 
+                	Padding="1" Height="35" VerticalAlignment="Bottom"
+                	Style="{StaticResource ButtonStyle}"
+                	Template="{DynamicResource ButtonBaseControlTemplate1}" FontSize="18"
+                    >
+                    <Button.Effect>
+                        <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                    </Button.Effect>
+                </Button>
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</Window>

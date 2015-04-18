@@ -1,0 +1,112 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Name="winReminder" x:Class="winReminder"
+    Title="IW Shutdown Timer :: Reminder" Height="300" Width="450" Foreground="{x:Null}" Background="{x:Null}" OpacityMask="Black" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True" Icon="ST_Icon_02_01 (16+32+48).ico">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <ControlTemplate x:Key="ButtonBaseControlTemplate1" TargetType="{x:Type ButtonBase}">
+            <Themes:ButtonChrome x:Name="Chrome"
+				Background="{TemplateBinding Background}"
+				BorderBrush="{TemplateBinding BorderBrush}"
+				SnapsToDevicePixels="True">
+                <ContentPresenter Margin="{TemplateBinding Padding}"
+					HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+					Content="{TemplateBinding Content}"
+					ContentStringFormat="{TemplateBinding ContentStringFormat}"
+					ContentTemplate="{TemplateBinding ContentTemplate}"
+					RecognizesAccessKey="True"
+					SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Themes:ButtonChrome>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter TargetName="Chrome" Property="RenderDefaulted" Value="False" />
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter TargetName="Chrome" Property="RenderPressed" Value="False" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </Window.Resources>
+    <Window.Effect>
+        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="10" Opacity="0.25"/>
+    </Window.Effect>
+    <Grid>
+
+        <Grid x:Name="GMain" HorizontalAlignment="Center"  Width="400" Height="250" VerticalAlignment="Center" >
+            <Rectangle x:Name="recMain" RadiusX="10" RadiusY="10">
+                <Rectangle.Stroke>
+                    <SolidColorBrush Color="Black" Opacity="0.1"/>
+                </Rectangle.Stroke>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="White" Opacity="0.75"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Button x:Name="btnStopTimer" 
+            	Style="{StaticResource ButtonStyle}"
+            	Template="{DynamicResource ButtonBaseControlTemplate1}"
+            	Content="OK" 
+            	Height="30" 
+            	VerticalAlignment="Bottom" 
+            	HorizontalAlignment="Center"  
+            	Width="76" 
+            	BorderThickness="0" 
+            	Background="White" 
+            	Margin="162,0,162,10" ToolTip="Close this window and Stop the Timer">
+                <Button.BorderBrush>
+                    <SolidColorBrush Color="#FF707070" Opacity="0.5"/>
+                </Button.BorderBrush>
+                <Button.Foreground>
+                    <SolidColorBrush Color="Black"/>
+                </Button.Foreground>
+                <Button.Effect>
+                    <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Rectangle RadiusY="10" RadiusX="10" Margin="10,113,10,0" Height="90" VerticalAlignment="Top">
+                <Rectangle.Effect>
+                    <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                </Rectangle.Effect>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="White" Opacity="0.8"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle RadiusY="5" RadiusX="5" Margin="10,10,10,209">
+                <Rectangle.Effect>
+                    <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="10" Opacity="0.1"/>
+                </Rectangle.Effect>
+                <Rectangle.Stroke>
+                    <SolidColorBrush Color="Black" Opacity="0.1"/>
+                </Rectangle.Stroke>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFF4F4F5" Opacity="0.8"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label Content="IW Shutdown Timer :: Reminder" VerticalAlignment="Top" Margin="45,11,45,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <Label.Effect>
+                    <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.5" BlurRadius="10" Color="White"/>
+                </Label.Effect>
+            </Label>
+            <Image HorizontalAlignment="Center"  Height="64" VerticalAlignment="Top" Width="64" Margin="168,47,168,0" Source="clock.png">
+                <Image.Effect>
+                    <DropShadowEffect BlurRadius="15" Direction="0" ShadowDepth="0" Opacity="0.25"/>
+                </Image.Effect>
+            </Image>
+            <TextBox x:Name="txtRInfoMsg" HorizontalAlignment="Center" Height="75" TextWrapping="Wrap" Text="No massage!" VerticalAlignment="Top" Width="350" Margin="25,121,25,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" UndoLimit="0" Focusable="False" VerticalScrollBarVisibility="Auto" BorderBrush="{x:Null}" Background="{x:Null}" IsReadOnly="True" IsUndoEnabled="False" IsTabStop="False" Cursor="Arrow"/>
+
+        </Grid>
+        <MediaElement x:Name="mElement" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Margin="3,321,0,-121" Volume="1" LoadedBehavior="Manual"/>
+
+    </Grid>
+</Window>

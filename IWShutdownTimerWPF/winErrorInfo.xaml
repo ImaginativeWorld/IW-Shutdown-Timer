@@ -1,0 +1,75 @@
+﻿<Window x:Name="winErrorInfo" x:Class="ErrorInfoWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="IW Shutdown Timer :: Error Info" Height="290" Width="400" Background="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" OpacityMask="Black" AllowsTransparency="True" ShowInTaskbar="False" Topmost="True" Icon="ST_Icon_02_01 (16+32+48).ico">
+    <Window.Effect>
+        <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.5" BlurRadius="15"/>
+    </Window.Effect>
+    <Grid>
+        <Grid x:Name="GridMain" Margin="25">
+            <Rectangle Width="350" RadiusX="10" RadiusY="10">
+                <Rectangle.Stroke>
+                    <SolidColorBrush Color="Black" Opacity="0.1"/>
+                </Rectangle.Stroke>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="White" Opacity="0.5"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Grid Margin="10,104,10,0" Height="85" VerticalAlignment="Top">
+                <Rectangle RadiusY="10" RadiusX="10">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="White" Opacity="0.75"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Label x:Name="lblErrInfo" Content="" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14">
+                    <Label.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="25" Color="White"/>
+                    </Label.Effect>
+                </Label>
+            </Grid>
+            <Grid x:Name="GridBtnOK" Margin="125,0,125,13" Height="26" VerticalAlignment="Bottom">
+                <Rectangle x:Name="recBtnOk" RadiusY="10" RadiusX="10" Height="26" VerticalAlignment="Bottom">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="10" Opacity="0.25"/>
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FEDDDDDD" Offset="1"/>
+                            <GradientStop Color="#FEB8B8B8"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0.25"/>
+                    </Rectangle.Stroke>
+                </Rectangle>
+                <Label x:Name="lblOK" Content="OK" Margin="0" Height="26" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>
+            <Image x:Name="imgSad" VerticalAlignment="Top" Margin="151,48,151,0" Source="smile_sad_48.png" Height="48">
+                <Image.Effect>
+                    <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" BlurRadius="10"/>
+                </Image.Effect>
+                <!--<Image.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="imgSad" 
+                					Storyboard.TargetProperty="Opacity" From="0.7" To="1" 
+                					Duration="0:0:0.25" BeginTime="0:0:0" AutoReverse="True" 
+                					RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>-->
+            </Image>
+            <Grid x:Name="GridTitle" Margin="10,10,10,0" Height="30" VerticalAlignment="Top">
+                <Rectangle RadiusY="10" RadiusX="10">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="White" Opacity="0.75"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Label Content="IW Shutdown Timer :: Error!" Margin="0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Window>

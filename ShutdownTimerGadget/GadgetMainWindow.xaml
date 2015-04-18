@@ -1,0 +1,127 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="WinGadget" x:Class="GadgetMainWindow"
+    Title="IW Shutdown Timer :: Gadget" Height="90" Width="171" WindowStyle="None" Background="{x:Null}" Foreground="{x:Null}" OpacityMask="Black" AllowsTransparency="True" ResizeMode="NoResize" Icon="ST_Gadget_Icon_02_01 (16+32+48).ico" ShowInTaskbar="False">
+    <Window.Effect>
+        <DropShadowEffect Opacity="0.25" ShadowDepth="0" BlurRadius="10"/>
+    </Window.Effect>
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="mnuLock" Header="Lock the Gadget"  IsCheckable="True"/>
+            <Separator/>
+            <MenuItem x:Name="mnuAutorun" Header="Start with Windows" IsCheckable="True"/>
+            
+            <MenuItem x:Name="mnuShowConfirmation" Header="Show Confirmation window" IsCheckable="True"/>
+            
+            <MenuItem x:Name="mnuCngColor" Header="Change Button Color"/>
+            <Separator/>
+            <!--<MenuItem x:Name="mnuHelp" Header="Help"/>-->
+            <MenuItem x:Name="mnuAbout" Header="About"/>
+            <Separator/>
+            <MenuItem x:Name="mnuExit" Header="Exit"/>
+        </ContextMenu>
+    </Window.ContextMenu>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="WinGadget" 
+                    Storyboard.TargetProperty="Opacity" From="0" To="1" 
+                    Duration="0:0:0.5" BeginTime="0:0:0" AutoReverse="False"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+
+        <Grid x:Name="GMain" Margin="25">
+            <Rectangle x:Name="recMainBG" RadiusX="10" RadiusY="10" StrokeThickness="5" HorizontalAlignment="Right" Width="120">
+                <Rectangle.Stroke>
+                    <SolidColorBrush Color="White" Opacity="0"/>
+                </Rectangle.Stroke>
+
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="White" Opacity="0.25"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Grid x:Name="GBtn" Margin="6">
+                <Button x:Name="btnShutdown" Content="" 
+            		Style="{DynamicResource RoundedButton}" ToolTip="Shutdown" HorizontalAlignment="Left" Width="22" Margin="4,3,0,0" Height="22" VerticalAlignment="Top" Cursor="Hand" Foreground="Black">
+                    <Button.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.5"/>
+                    </Button.Effect>
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="Black" Opacity="0.1"/>
+                    </Button.BorderBrush>
+                    <Button.Background>
+                        <ImageBrush ImageSource="Shutdown-01.png"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btnLock" Content="" 
+            		Style="{DynamicResource RoundedButton}" Margin="32,3,54,3" ToolTip="Restart" Cursor="Hand" Foreground="Black">
+                    <Button.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.5"/>
+                    </Button.Effect>
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="Black" Opacity="0.1"/>
+                    </Button.BorderBrush>
+                    <Button.Background>
+                        <ImageBrush ImageSource="Restart-01.png"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btnLogOff" Content="" 
+            		Style="{DynamicResource RoundedButton}" Margin="60,3,26,3" ToolTip="Log off / Sign out" Cursor="Hand" Foreground="Black">
+                    <Button.Effect>
+                        <DropShadowEffect Direction="0" ShadowDepth="0" Color="White" Opacity="0.5"/>
+                    </Button.Effect>
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="Black" Opacity="0.1"/>
+                    </Button.BorderBrush>
+                    <Button.Background>
+                        <ImageBrush ImageSource="Key-01.png"/>
+                    </Button.Background>
+                </Button>
+
+            </Grid>
+
+        </Grid>
+        <Rectangle x:Name="recSwitch" RadiusY="10" RadiusX="10" StrokeThickness="5" Margin="121,25,25,25" Cursor="Hand">
+            <Rectangle.Stroke>
+                <SolidColorBrush Color="White" Opacity="0.8"/>
+            </Rectangle.Stroke>
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFFA700"/>
+                    <GradientStop Color="#FFFF7900" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+            <!--<Rectangle.Fill> 'Orange
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFFA700"/>
+                    <GradientStop Color="#FFFF7900" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>-->
+            <!--<Rectangle.Fill> 'Green
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF98D50C"/>
+                    <GradientStop Color="#FF71A400" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>-->
+            <!--<Rectangle.Fill> 'Blue
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF2CA6D1"/>
+                    <GradientStop Color="#FF19708F" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>-->
+            <!--<Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAAAAAA" Offset="0.5"/>
+                    <GradientStop Color="#FF999999" Offset="0.5"/>
+                    <GradientStop Color="#FFEAEAEA"/>
+                    <GradientStop Color="#FFAEAEAE" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>-->
+        </Rectangle>
+    </Grid>
+</Window>

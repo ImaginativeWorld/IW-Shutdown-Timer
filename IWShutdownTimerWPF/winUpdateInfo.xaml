@@ -1,0 +1,125 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Name="winUpdateInfoBox" x:Class="winUpdateInfo"
+    Title="IW Shutdown Timer :: Update Info" Height="250" Width="400" OpacityMask="Black" Background="{x:Null}" Foreground="{x:Null}" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="False" Icon="ST_Icon_02_01 (16+32+48).ico">
+    <Window.Resources>
+        
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <ControlTemplate x:Key="ButtonBaseControlTemplate1" TargetType="{x:Type ButtonBase}">
+            <Themes:ButtonChrome x:Name="Chrome"
+				Background="{TemplateBinding Background}"
+				BorderBrush="{TemplateBinding BorderBrush}"
+				SnapsToDevicePixels="True">
+                <ContentPresenter Margin="{TemplateBinding Padding}"
+					HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+					Content="{TemplateBinding Content}"
+					ContentStringFormat="{TemplateBinding ContentStringFormat}"
+					ContentTemplate="{TemplateBinding ContentTemplate}"
+					RecognizesAccessKey="True"
+					SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Themes:ButtonChrome>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter TargetName="Chrome" Property="RenderDefaulted" Value="False" />
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter TargetName="Chrome" Property="RenderPressed" Value="False" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="winUpdateInfoBox" 
+                    Storyboard.TargetProperty="Opacity" From="0" To="1" 
+                    Duration="0:0:0.25" BeginTime="0:0:0" AutoReverse="False"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    
+    <Grid x:Name="mainGrid">
+        <Grid x:Name="GridUpdateInfo" Margin="25">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="0" ShadowDepth="0" Opacity="0.5"/>
+            </Grid.Effect>
+            <Rectangle HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="350" RadiusX="10" RadiusY="10">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="White" Opacity="0.5"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle RadiusY="10" RadiusX="10" Margin="5">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="White" Opacity="0.75"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Image x:Name="imgSmile" Height="48" VerticalAlignment="Top" Source="smile_grin_48.png" Margin="151,20,151,0">
+                <Image.Effect>
+                    <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.25" Color="White" BlurRadius="10"/>
+                </Image.Effect>
+                <!--<Image.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="imgSmile" 
+                					Storyboard.TargetProperty="Opacity" From="0.7" To="1" 
+                					Duration="0:0:0.25" BeginTime="0:0:0" AutoReverse="True" 
+                					RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>-->
+            </Image>
+            <Label x:Name="lblUpdateInfo" Content="New version 0.0.0.0 available!" VerticalAlignment="Top" Margin="5,80,5,0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Black">
+                <Label.Effect>
+                    <DropShadowEffect BlurRadius="15" Direction="0" ShadowDepth="0" Opacity="0.25" Color="White"/>
+                </Label.Effect>
+            </Label>
+            <Button x:Name="btnDLnow" 
+    			Content="Download Now" 
+    			Margin="38,0,0,20" 
+    			BorderThickness="0"
+    			Background="White" 
+    			Padding="1" Height="40" VerticalAlignment="Bottom"
+    			Style="{StaticResource ButtonStyle}"
+    			Template="{DynamicResource ButtonBaseControlTemplate1}" FontSize="14" HorizontalAlignment="Left" Width="120"
+                    >
+                <Button.Effect>
+                    <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Button x:Name="btnDLlater" 
+    			Content="Remind me later" 
+    			Margin="0,0,38,20"
+    			HorizontalAlignment="Right" 
+    			Width="120" 
+    			BorderThickness="0"
+    			Background="White" 
+    			Padding="1" Height="40" VerticalAlignment="Bottom"
+    			Style="{StaticResource ButtonStyle}"
+    			Template="{DynamicResource ButtonBaseControlTemplate1}" FontSize="14"
+                    >
+                <Button.Effect>
+                    <DropShadowEffect Opacity="0.1" ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+
+        </Grid>
+
+    </Grid>
+</Window>
